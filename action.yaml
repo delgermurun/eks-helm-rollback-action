@@ -21,14 +21,8 @@ inputs:
     cluster-role-arn:
         description: 'EKS cluster admin role arn.'
         required: false
-    config-files:
-        description: 'Comma separates list of helm values files.'
-        required: false
     namespace:
         description: 'Kubernetes namespace to use.'
-        required: false
-    values:
-        description: 'Comma separated list of value sets for helms. e.x: key1=value1,key2=value2'
         required: false
     name:
         description: 'Name of the helm deploy.'
@@ -43,10 +37,6 @@ inputs:
     chart-name:
         description: 'Chart name in the repository'
         required: false
-    update-deps:
-        description: 'Update chart dependencies'
-        required: false
-        default: "true"
     repo-name:
         description: 'Name of the repository'
         required: false
@@ -55,9 +45,6 @@ inputs:
         required: false
     repo-password:
         description: 'Password to authenticate to repository.'
-        required: false
-    chart-version:
-        description: 'The version number of the chart.'
         required: false
     debug:
         description: 'Add "--debug" option'
@@ -74,17 +61,13 @@ runs:
         AWS_ACCESS_KEY_ID: ${{ inputs.aws-access-key-id }}
         CLUSTER_NAME: ${{ inputs.cluster-name }}
         CLUSTER_ROLE_ARN: ${{ inputs.cluster-role-arn }}
-        DEPLOY_CONFIG_FILES: ${{ inputs.config-files }}
         DEPLOY_NAMESPACE: ${{ inputs.namespace }}
-        DEPLOY_VALUES: ${{ inputs.values }}
         DEPLOY_NAME: ${{ inputs.name }}
         DEPLOY_CHART_PATH: ${{ inputs.chart-path }}
-        UPDATE_DEPS: ${{ inputs.update-deps }}
         HELM_REPOSITORY: ${{ inputs.chart-repository }}
         HELM_CHART_NAME: ${{ inputs.chart-name }}
         REPO_NAME: ${{ inputs.repo-name }}
         REPO_USERNAME: ${{ inputs.repo-username }}
         REPO_PASSWORD: ${{ inputs.repo-password }}
-        CHART_VERSION: ${{ inputs.chart-version }}
         DEBUG: ${{ inputs.debug }}
         DRY_RUN: ${{ inputs.dry-run }}
