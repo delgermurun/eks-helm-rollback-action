@@ -39,9 +39,17 @@ fi
 # Helm rollback
 ####################
 
-ROLLBACK_COMMAND="helm rollback --debug --dry-run"
+ROLLBACK_COMMAND="helm rollback"
 if [ -n "$DEPLOY_NAMESPACE" ]; then
     ROLLBACK_COMMAND="${ROLLBACK_COMMAND} -n ${DEPLOY_NAMESPACE}"
+fi
+
+if [ -n "$DEBUG" ]; then
+    ROLLBACK_COMMAND="${ROLLBACK_COMMAND} --debug"
+fi
+
+if [ -n "$DRY_RUN" ]; then
+    ROLLBACK_COMMAND="${ROLLBACK_COMMAND} --dry-run"
 fi
 
 ROLLBACK_COMMAND="${ROLLBACK_COMMAND} ${DEPLOY_NAME}"

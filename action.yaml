@@ -59,6 +59,12 @@ inputs:
     chart-version:
         description: 'The version number of the chart.'
         required: false
+    debug:
+        description: 'Add "--debug" option'
+        required: false
+    dry-run:
+        description: 'Add "--dry-run" option'
+        required: false
 runs:
     using: 'docker'
     image: 'Dockerfile'
@@ -80,3 +86,5 @@ runs:
         REPO_USERNAME: ${{ inputs.repo-username }}
         REPO_PASSWORD: ${{ inputs.repo-password }}
         CHART_VERSION: ${{ inputs.chart-version }}
+        DEBUG: ${{ inputs.debug }}
+        DRY_RUN: ${{ inputs.dry-run }}
