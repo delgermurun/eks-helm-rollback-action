@@ -12,7 +12,7 @@ else
         update-kubeconfig --name ${CLUSTER_NAME} 
 fi
 
-# Helm Deployment
+# Helm rollback
 
 ####################
 # Dependency Update
@@ -36,30 +36,19 @@ else
 fi
 
 ####################
-# Helm upgrade
+# Helm rollback
 ####################
 
-UPGRADE_COMMAND="helm upgrade -i --timeout ${TIMEOUT}"
-for config_file in ${DEPLOY_CONFIG_FILES//,/ }
-do
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} -f ${config_file}"
-done
+ROLLBACK_COMMAND="helm rollback --debug --dry-run"
 if [ -n "$DEPLOY_NAMESPACE" ]; then
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} -n ${DEPLOY_NAMESPACE}"
-fi
-if [ -n "$DEPLOY_VALUES" ]; then
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} --set ${DEPLOY_VALUES}"
+    ROLLBACK_COMMAND="${ROLLBACK_COMMAND} -n ${DEPLOY_NAMESPACE}"
 fi
 
 if [ -z "$HELM_REPOSITORY" ]; then
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} ${DEPLOY_NAME} ${DEPLOY_CHART_PATH}"
+    ROLLBACK_COMMAND="${ROLLBACK_COMMAND} ${DEPLOY_NAME} ${DEPLOY_CHART_PATH}"
 else
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} ${DEPLOY_NAME} ${HELM_CHART_NAME}/${HELM_CHART_NAME}"
-fi
-
-if [ -n "$CHART_VERSION" ]; then
-    UPGRADE_COMMAND="${UPGRADE_COMMAND} --version ${CHART_VERSION}"
+    ROLLBACK_COMMAND="${ROLLBACK_COMMAND} ${DEPLOY_NAME} ${HELM_CHART_NAME}/${HELM_CHART_NAME}"
 fi
     
-echo "Executing: ${UPGRADE_COMMAND}"
-${UPGRADE_COMMAND}
+echo "Executing: ${ROLLBACK_COMMAND}"
+${ROLLBACK_COMMAND}
